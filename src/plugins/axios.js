@@ -7,7 +7,6 @@ let config = {
   baseURL: 'https://jsonmock.hackerrank.com/api/',
   timeout: 60 * 1000, // Timeout
 };
-console.log(config);
 
 const _axios = axios.create(config);
 

@@ -9,16 +9,25 @@ export default new Vuex.Store({
     movies: [],
     pages: 0,
     currentPage: 1,
-    search: null
+    search: null,
+    isMoviesLoaded: false,
   },
 
   mutations: {
     setTotalPages(state, pages) {
-      state.pages = pages;
+      state.pages = pages
     },
 
     setCurrentPage(state, page) {
-      state.currentPage = page;
+      state.currentPage = page
+    },
+
+    setSearch(state, search) {
+      state.search = search
+    },
+
+    setIsMoviesLoaded(state, isLoaded) {
+      state.isMoviesLoaded = isLoaded
     },
 
     setMovies(state, movies) {
@@ -27,17 +36,33 @@ export default new Vuex.Store({
   },
 
   actions: {
-    getMovies({ dispatch }) {
-      Vue.axios.get('movies/search')
+    getMovies({ state, commit, dispatch }) {
+      commit('setIsMoviesLoaded', false)
+      Vue.axios.get('movies/search', {
+        params: {
+          Title: state.search,
+          page: state.currentPage
+        }
+      })
         .then(response => {
-          dispatch('setMoviesData', response.data);
+          dispatch('setMoviesData', response.data)
         })
     },
 
+    fetchMovies({ commit, dispatch }) {
+      commit('setCurrentPage', 1)
+      dispatch('getMovies')
+    },
+
     setMoviesData({ commit }, data) {
-      commit('setTotalPages', data.total_pages);
+      commit('setTotalPages', data.total_pages)
       commit('setMovies', data.data)
-    }
+      commit('setIsMoviesLoaded', true)
+    },
+
+    setSearch({ commit }, event) {
+      commit('setSearch', event.target.value)
+    },
 
   }
 })
