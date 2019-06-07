@@ -11,6 +11,10 @@ export default new Vuex.Store({
     currentPage: 1,
     search: null,
     isMoviesLoaded: false,
+
+    favouriteMovies: {
+
+    }
   },
 
   mutations: {
@@ -31,8 +35,22 @@ export default new Vuex.Store({
     },
 
     setMovies(state, movies) {
-      state.movies = movies
-    }
+      state.movies = movies.map(movie => ({
+        ...movie,
+        isSelected: !!state.favouriteMovies[movie.imdbID]
+      }))
+    },
+
+
+    addFavouriteMovie(state, { movie, index }) {
+      Vue.set(state.movies[index], 'isSelected', true)
+      Vue.set(state.favouriteMovies, movie.imdbID, movie)
+    },
+
+    removeFavouriteMovie(state, { movie, index }) {
+      Vue.set(state.movies[index], 'isSelected', false)
+      Vue.delete(state.favouriteMovies, movie.imdbID)
+    },
   },
 
   actions: {
@@ -64,5 +82,11 @@ export default new Vuex.Store({
       commit('setSearch', event.target.value)
     },
 
+    toggleFavouriteMovie({ state, commit }, { movie, index }) {
+      const isSelected = !!state.favouriteMovies[movie.imdbID]
+      const method = isSelected ? 'removeFavouriteMovie' : 'addFavouriteMovie'
+
+      commit(method, { movie, index });
+    },
   }
 })

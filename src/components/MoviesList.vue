@@ -10,9 +10,11 @@
         class="movies-wrapper"
         v-if="movies.length">
         <movies-item
-          v-for="movie in movies"
+          v-for="(movie, index) in movies"
+          :index="index"
           :key="movie.imdbID"
           :movie="movie"
+          :selectable="true"
         ></movies-item>
       </div>
 
@@ -23,14 +25,19 @@
 
     <div v-else class="loader">Loading...</div>
 
+
+    <hr>
+
+    {{ favouriteMovies }}
+
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import MoviesItem from './MoviesItem.vue';
-import MoviesSearch from './MoviesSearch.vue';
+import MoviesItem from '@/components/MoviesItem.vue';
+import MoviesSearch from '@/components/MoviesSearch.vue';
 
 export default {
   name: 'MovieList',
@@ -44,7 +51,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['movies', 'isMoviesLoaded', 'search'])
+    ...mapState([
+      'movies',
+      'isMoviesLoaded',
+      'search',
+      'favouriteMovies'
+    ])
   },
   methods: {
     ...mapActions(['getMovies'])
