@@ -25,6 +25,15 @@
 
     <div v-else class="loader">Loading...</div>
 
+    <paginate
+      :page-count="pages"
+      :click-handler="onPageChange"
+      :prev-text="'Prev'"
+      :next-text="'Next'"
+      container-class="pagination"
+      page-class="pagination-btn btn">
+    </paginate>
+
 
     <hr>
     <header class="header">
@@ -45,6 +54,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import Paginate from 'vuejs-paginate'
+
 import MoviesItem from '@/components/MoviesItem.vue';
 import MoviesSearch from '@/components/MoviesSearch.vue';
 
@@ -52,7 +63,8 @@ export default {
   name: 'MovieList',
   components: {
     MoviesItem,
-    MoviesSearch
+    MoviesSearch,
+    Paginate
   },
 
   mounted() {
@@ -64,11 +76,17 @@ export default {
       'movies',
       'isMoviesLoaded',
       'search',
+      'pages',
+      'currentPage',
       'favouriteMovies'
     ])
   },
   methods: {
-    ...mapActions(['getMovies'])
+    ...mapActions(['getMovies', 'setPage']),
+
+    onPageChange(page) {
+      this.setPage(page)
+    }
   }
 }
 </script>
@@ -91,4 +109,38 @@ export default {
     flex-direction row
     flex-wrap wrap
 
+  .pagination
+    display inline-block
+    margin-top 20px
+    margin-bottom: 20px;
+
+    padding-left 0
+    
+    list-style none
+    border 1px solid #ccc
+    border-radius: 5px
+    font-size 0
+
+    >>> li
+      display inline-block
+      font-size 1rem
+      
+      &.active
+        background aquamarine 
+
+      &.disabled
+        opacity .7
+        background #ccc
+        
+
+      &:last-of-type 
+        a
+          border-right: none
+
+      a
+        display block
+        padding 10px 15px
+        border-right 1px solid #ccc
+        outline none
+    
 </style>

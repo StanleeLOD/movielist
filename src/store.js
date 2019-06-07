@@ -80,6 +80,12 @@ export default new Vuex.Store({
 
     setSearch({ commit }, event) {
       commit('setSearch', event.target.value)
+      commit('setCurrentPage', 1)
+    },
+
+    setPage({ commit, dispatch }, page) {
+      commit('setCurrentPage', page)
+      dispatch('getMovies')
     },
 
     toggleFavouriteMovie({ state, commit }, { movie, index }) {
