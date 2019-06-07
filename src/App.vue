@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1> Pavel Son's Movies List </h1>
     <MoviesList/>
   </div>
 </template>

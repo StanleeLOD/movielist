@@ -2,6 +2,7 @@
   <div class="movies-search">
     <input
       type="text"
+      placeholder="Search"
       :value="search"
       @input="setSearch"
       @keypress.enter="fetchMovies"
