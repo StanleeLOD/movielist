@@ -27,8 +27,17 @@
 
 
     <hr>
+    <header class="header">
+      <h2 class="title">My Favourite Movies:</h2>
+    </header>
 
-    {{ favouriteMovies }}
+    <div class="movies-wrapper">
+      <movies-item
+        v-for="movie in favouriteMovies"
+        :key="movie.imdbID"
+        :movie="movie"
+      ></movies-item>
+    </div>
 
   </div>
 </template>

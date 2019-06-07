@@ -24,16 +24,17 @@ export default {
   },
 
   props: {
+    movie: {
+      required: true,
+      type: Object
+    },
     selectable: {
       required: false,
       type: Boolean,
       default: false
     },
-    movie: {
-      required: true,
-      type: Object
-    },
     index: {
+      required: false,
       type: Number
     }
   },
